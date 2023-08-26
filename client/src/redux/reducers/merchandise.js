@@ -2,15 +2,18 @@
 import { merchandiseTypes } from "../types";
 
 const initialState = {
-  products: []
+  products: [],
+  page: null,
+  sort: null,
+  minPrice: null,
+  maxPrice: null
 };
 
 export function merchandiseReducer(state = initialState, action) {
   switch (action.type) {
     case merchandiseTypes.GET_ALL_PRODUCTS:
       return {
-        ...state,
-        products: action.payload.products
+        ...action.payload
       };
     default:
       return state;

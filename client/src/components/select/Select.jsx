@@ -1,20 +1,22 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { SortingProductsArray } from "../../redux/actions/merchandise";
+import { useDispatch, useSelector } from "react-redux";
+import { getProductsArray } from "../../redux/actions/merchandise";
 import "./_select.scss";
 
-const Select = (page) => {
+const Select = () => {
   const [sort, setSort] = useState(null);
+  const currentPage = useSelector((state) => state.merchandise.page);
   const dispatch = useDispatch();
 
   const handleChange = (event) => {
     setSort(event.target.value);
+    
   };
 
   useEffect(() => {
-    dispatch(SortingProductsArray(page, sort));
+    !currentPage ? dispatch(getProductsArray(1, sort)) : dispatch(getProductsArray(currentPage, sort));
   }, [dispatch, sort]);
 
   return (

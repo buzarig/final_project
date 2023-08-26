@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Outlet, Link } from "react-router-dom";
 import { Pagination } from "@mui/material";
 
@@ -17,13 +17,15 @@ import filterBtn from "../assets/images/filter-button/filter.png";
 import "../styles/_catalog.scss";
 
 const Catalog = () => {
-  const [currentPage, setCurrentPage] = useState(1);
   const products = useSelector((state) => state.merchandise);
+  const sort = useSelector((state) => state.merchandise.sort);
+  const minPrice = useSelector((state) => state.merchandise.minPrice);
+  const maxPrice = useSelector((state) => state.merchandise.maxPrice);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getProductsArray(currentPage));
-  }, [dispatch, currentPage]);
+  function changePage(page) {
+    dispatch(getProductsArray(page, sort, minPrice, maxPrice));
+  }
 
   // адаптив сайд-бару(фільтрів)
   const [isFilterOpen, setFilterOpen] = useState(false);
@@ -50,7 +52,7 @@ const Catalog = () => {
       <hr className="line" />
       <div className="form">
         <Search />
-        <Select page={currentPage} />
+        <Select />
         <button onClick={toggleFilter} type="button" className="filter_btn">
           <img src={filterBtn} alt="" />
         </button>
@@ -65,7 +67,6 @@ const Catalog = () => {
         {(width > breakpoint || isFilterOpen) && (
           <div className="sidebar">
             <FilterSlider filterName="Ціна" />
-            <FilterSlider filterName="Вага" />
             <FilterButton />
             <RadioButtonsFilter />
           </div>
@@ -73,7 +74,7 @@ const Catalog = () => {
       </div>
       <Pagination
         count={2}
-        onChange={(_, num) => setCurrentPage(num)}
+        onChange={(_, num) => changePage(num)}
         variant="outlined"
         shape="rounded"
       />

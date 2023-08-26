@@ -1,38 +1,48 @@
 import api from "../../http/api";
 import { merchandiseTypes } from "../types";
 
-export function getAllProducts(products) {
+export function getAllProducts(
+  products,
+  page,
+  sort,
+  minPrice,
+  maxPrice
+) {
   return {
     type: merchandiseTypes.GET_ALL_PRODUCTS,
     payload: {
-      products
+      products,
+      page,
+      sort,
+      minPrice,
+      maxPrice
     }
   };
 }
 
-export const getProductsArray = (page) => async (dispatch) => {
-  try {
-    const data = await api
-      .get(`/products/?perPage=12&startPage=${page}`)
-      .then((products) => products);
-    console.log(data.data);
-    dispatch(getAllProducts(data.data));
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const SortingProductsArray = (page, sort) => async (dispatch) => {
-  try {
-    const data = await api
-      .get(`/products/?perPage=12&startPage=${page}&sort=${sort}currentPrice`)
-      .then((products) => products);
-    console.log(data.data);
-    dispatch(getAllProducts(data.data));
-  } catch (error) {
-    console.log(error);
-  }
-};
+export const getProductsArray =
+  (page, sort, minPrice = 49.99, maxPrice = 479.99) =>
+  async (dispatch) => {
+    try {
+      const data = await api
+        .get(
+          `/products/filter?minPrice=${minPrice}&maxPrice=${maxPrice}&perPage=12&startPage=${page}&sort=${sort}currentPrice`
+        )
+        .then((products) => products);
+      console.log(data.data.products);
+      dispatch(
+        getAllProducts(
+          data.data.products,
+          page,
+          sort,
+          minPrice,
+          maxPrice
+        )
+      );
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
 // приклад для фільтру тільки на сторінках(https://youtu.be/34Wyw5155v4?t=6880)
 
