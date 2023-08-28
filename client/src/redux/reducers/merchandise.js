@@ -3,10 +3,14 @@ import { merchandiseTypes } from "../types";
 
 const initialState = {
   products: [],
-  page: null,
+  page: 1,
   sort: null,
-  minPrice: null,
-  maxPrice: null
+  minPrice: 49.99,
+  maxPrice: 479.99,
+  grade: [],
+  roasting: [],
+  brand: [],
+  type: []
 };
 
 export function merchandiseReducer(state = initialState, action) {

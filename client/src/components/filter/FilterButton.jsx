@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-// import { useDispatch, useSelector } from "react-redux";
-// import { getProductsArray } from "../../redux/actions/merchandise";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getProductsArray } from "../../redux/actions/merchandise";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import "./_filterButton.scss";
@@ -24,32 +24,34 @@ const styleButtonActive = {
 };
 
 const FilterButton = () => {
-  const [styleArabic, setStyleArabic] = useState([styleButton, false]);
-  const [styleRabust, setStyleRabust] = useState([styleButton, false]);
-  const [styleAverage, setStyleAverage] = useState([styleButton, false]);
-  const [styleDark, setStyleDark] = useState([styleButton, false]);
-  const [styleLight, setStyleLight] = useState([styleButton, false]);
-  const [styleHardDark, setStyleHardDark] = useState([styleButton, false]);
-  const [styleMediumLight, setStyleMediumLight] = useState([
-    styleButton,
-    false
-  ]);
-  // const currentPage = useSelector((state) => state.merchandise.page);
-  // const sort = useSelector((state) => state.merchandise.sort);
-  // const minPrice = useSelector((state) => state.merchandise.minPrice);
-  // const maxPrice = useSelector((state) => state.merchandise.maxPrice);
-  // const dispatch = useDispatch();
+  const [stateBtn, setStateBtn] = useState({
+    arabic: [styleButton, false],
+    rabusta: [styleButton, false],
+    average: [styleButton, false],
+    dark: [styleButton, false],
+    light: [styleButton, false]
+  });
+  const { page, sort, minPrice, maxPrice, brand, type } = useSelector(
+    (state) => state.merchandise
+  );
+  const dispatch = useDispatch();
+  const { arabic, rabusta, average, dark, light } = stateBtn;
 
-  // useEffect(() => {
-  //   !currentPage
-  //     ? dispatch(getProductsArray(1, sort, minPrice, maxPrice, [styleArabic[1]&&"arabica"]))
-  //     : dispatch(getProductsArray(currentPage, sort, minPrice, maxPrice, [styleArabic[1]&&"arabica"]));
-  // }, [dispatch, minPrice, maxPrice, currentPage, sort]);
+  useEffect(() => {
+    const grade = [];
+    arabic[1] && grade.push("arabica");
+    rabusta[1] && grade.push("robusta");
+    const roasting = [];
+    average[1] && roasting.push("medium");
+    dark[1] && roasting.push("dark");
+    light[1] && roasting.push("light");
+    dispatch(getProductsArray(page, sort, minPrice, maxPrice, grade, roasting, brand, type));
+  }, [dispatch, arabic[1], rabusta[1], average[1], dark[1], light[1]]);
 
-  const stateChange = (styleBtn, changeStyle) => {
-    styleBtn[1]
-      ? changeStyle([styleButton, false])
-      : changeStyle([styleButtonActive, true]);
+  const stateChange = (stateButton, nameButton) => {
+    stateButton[1]
+      ? setStateBtn({ ...stateBtn, [nameButton]: [styleButton, false] })
+      : setStateBtn({ ...stateBtn, [nameButton]: [styleButtonActive, true] });
   };
 
   return (
@@ -60,18 +62,18 @@ const FilterButton = () => {
           <Button
             variant="outlined"
             onClick={() => {
-              stateChange(styleArabic, setStyleArabic);
+              stateChange(arabic, "arabic");
             }}
-            style={styleArabic[0]}
+            style={arabic[0]}
           >
             Арабика
           </Button>
           <Button
             variant="outlined"
             onClick={() => {
-              stateChange(styleRabust, setStyleRabust);
+              stateChange(rabusta, "rabusta");
             }}
-            style={styleRabust[0]}
+            style={rabusta[0]}
           >
             Рабуста
           </Button>
@@ -88,47 +90,29 @@ const FilterButton = () => {
           <Button
             variant="outlined"
             onClick={() => {
-              stateChange(styleAverage, setStyleAverage);
+              stateChange(average, "average");
             }}
-            style={styleAverage[0]}
+            style={average[0]}
           >
             середня
           </Button>
           <Button
             variant="outlined"
             onClick={() => {
-              stateChange(styleDark, setStyleDark);
+              stateChange(dark, "dark");
             }}
-            style={styleDark[0]}
+            style={dark[0]}
           >
             темна
           </Button>
           <Button
             variant="outlined"
             onClick={() => {
-              stateChange(styleLight, setStyleLight);
+              stateChange(light, "light");
             }}
-            style={styleLight[0]}
+            style={light[0]}
           >
             світла
-          </Button>
-          <Button
-            variant="outlined"
-            onClick={() => {
-              stateChange(styleHardDark, setStyleHardDark);
-            }}
-            style={styleHardDark[0]}
-          >
-            дуже темна
-          </Button>
-          <Button
-            variant="outlined"
-            onClick={() => {
-              stateChange(styleMediumLight, setStyleMediumLight);
-            }}
-            style={styleMediumLight[0]}
-          >
-            світло середня
           </Button>
         </Stack>
       </div>

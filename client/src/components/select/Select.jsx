@@ -7,16 +7,17 @@ import "./_select.scss";
 
 const Select = () => {
   const [sort, setSort] = useState(null);
-  const currentPage = useSelector((state) => state.merchandise.page);
+  const { minPrice, maxPrice, page, grade, roasting, brand, type } = useSelector(
+    (state) => state.merchandise
+  );
   const dispatch = useDispatch();
 
   const handleChange = (event) => {
     setSort(event.target.value);
-    
   };
 
   useEffect(() => {
-    !currentPage ? dispatch(getProductsArray(1, sort)) : dispatch(getProductsArray(currentPage, sort));
+    dispatch(getProductsArray(page, sort, minPrice, maxPrice, grade, roasting, brand, type));
   }, [dispatch, sort]);
 
   return (

@@ -55,16 +55,14 @@ const Input = styled(MuiInput)`
 
 const FilterSlider = ({ filterName }) => {
   const [value, setValue] = useState([49.99, 479.99]);
-  const currentPage = useSelector((state) => state.merchandise.page);
-  const sort = useSelector((state) => state.merchandise.sort);
+  const { page, sort, grade, roasting, brand, type } = useSelector(
+    (state) => state.merchandise
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log(sort)
-    !currentPage
-      ? dispatch(getProductsArray(1, sort, value[0], value[1]))
-      : dispatch(getProductsArray(currentPage, sort, value[0], value[1]));
-  }, [dispatch, currentPage, sort, value]);
+    dispatch(getProductsArray(page, sort, value[0], value[1], grade, roasting, brand, type));
+  }, [dispatch, value]);
 
   const handleChange = (event, newValue) => {
     let minValue = value[0] !== newValue[0] ? newValue[0] - 0.01 : newValue[0];

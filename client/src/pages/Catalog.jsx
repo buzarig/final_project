@@ -17,14 +17,11 @@ import filterBtn from "../assets/images/filter-button/filter.png";
 import "../styles/_catalog.scss";
 
 const Catalog = () => {
-  const products = useSelector((state) => state.merchandise);
-  const sort = useSelector((state) => state.merchandise.sort);
-  const minPrice = useSelector((state) => state.merchandise.minPrice);
-  const maxPrice = useSelector((state) => state.merchandise.maxPrice);
+  const {products, sort, minPrice, maxPrice, grade, roasting, brand, type} = useSelector((state) => state.merchandise);
   const dispatch = useDispatch();
 
   function changePage(page) {
-    dispatch(getProductsArray(page, sort, minPrice, maxPrice));
+    dispatch(getProductsArray(page, sort, minPrice, maxPrice, grade, roasting, brand, type));
   }
 
   // адаптив сайд-бару(фільтрів)
@@ -58,8 +55,8 @@ const Catalog = () => {
         </button>
       </div>
       <div className="cards-list__wrapper">
-        {products.products.length ? (
-          <Cards products={products.products} />
+        {products.length ? (
+          <Cards products={products} />
         ) : (
           <h2>loading...</h2>
         )}
