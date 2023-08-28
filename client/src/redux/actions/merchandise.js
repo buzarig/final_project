@@ -52,6 +52,7 @@ export const getProductsArray =
           }Page=9&startPage=${page}&sort=${sort}currentPrice`
         )
         .then((products) => products);
+        console.log(data.data.products)
       dispatch(
         getAllProducts(
           data.data.products,
