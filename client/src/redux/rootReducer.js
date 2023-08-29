@@ -1,12 +1,12 @@
 import { combineReducers } from "redux";
-import { merchandiseReducer as merchandise } from "./reducers/merchandise";
-import basketReducer from "./basket/reducer";
-// import catalogReducer from "./catalog/reducer";
+import merchandiseReducer from "./reducers/merchandiseReducer";
+import productsReducer from "./reducers/productsReducer";
+import basketReducer from "./reducers/basketReducer";
 
 const rootReducer = combineReducers({
-  merchandise,
+  merchandise: merchandiseReducer,
+  products: productsReducer,
   basket: basketReducer
-  // catalog: catalogReducer
 });
 
 export default rootReducer;

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Outlet, Link } from "react-router-dom";
 import { Pagination } from "@mui/material";
 
@@ -11,21 +11,31 @@ import FilterButton from "../components/filter/FilterButton";
 import RadioButtonsFilter from "../components/filter/FilterRadio";
 import useViewport from "../custom_hooks/viewport";
 
-import { getProductsArray } from "../redux/actions/merchandise";
+import { getProductsArray } from "../redux/actions/merchandiseActions";
 
 import filterBtn from "../assets/images/filter-button/filter.png";
 import "../styles/_catalog.scss";
 
 const Catalog = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const products = useSelector((state) => state.merchandise);
+  const { products, sort, minPrice, maxPrice, grade, roasting, brand, type } =
+    useSelector((state) => state.merchandise);
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(getProductsArray(currentPage));
-  }, [dispatch, currentPage]);
+  function changePage(page) {
+    dispatch(
+      getProductsArray(
+        page,
+        sort,
+        minPrice,
+        maxPrice,
+        grade,
+        roasting,
+        brand,
+        type
+      )
+    );
+  }
 
-  // адаптив сайд-бару(фільтрів)
   const [isFilterOpen, setFilterOpen] = useState(false);
 
   const toggleFilter = () => {
@@ -50,22 +60,17 @@ const Catalog = () => {
       <hr className="line" />
       <div className="form">
         <Search />
-        <Select page={currentPage} />
+        <Select />
         <button onClick={toggleFilter} type="button" className="filter_btn">
           <img src={filterBtn} alt="" />
         </button>
       </div>
       <div className="cards-list__wrapper">
-        {products.products.length ? (
-          <Cards products={products.products} />
-        ) : (
-          <h2>loading...</h2>
-        )}
+        {products.length ? <Cards products={products} /> : <h2>loading...</h2>}
 
         {(width > breakpoint || isFilterOpen) && (
           <div className="sidebar">
             <FilterSlider filterName="Ціна" />
-            <FilterSlider filterName="Вага" />
             <FilterButton />
             <RadioButtonsFilter />
           </div>
@@ -73,7 +78,7 @@ const Catalog = () => {
       </div>
       <Pagination
         count={2}
-        onChange={(_, num) => setCurrentPage(num)}
+        onChange={(_, num) => changePage(num)}
         variant="outlined"
         shape="rounded"
       />

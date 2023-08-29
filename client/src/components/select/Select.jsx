@@ -1,12 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 
 import React, { useState, useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { SortingProductsArray } from "../../redux/actions/merchandise";
+import { useDispatch, useSelector } from "react-redux";
+import { getProductsArray } from "../../redux/actions/merchandiseActions";
 import "./_select.scss";
 
-const Select = (page) => {
+const Select = () => {
   const [sort, setSort] = useState(null);
+  const { minPrice, maxPrice, page, grade, roasting, brand, type } =
+    useSelector((state) => state.merchandise);
   const dispatch = useDispatch();
 
   const handleChange = (event) => {
@@ -14,7 +17,18 @@ const Select = (page) => {
   };
 
   useEffect(() => {
-    dispatch(SortingProductsArray(page, sort));
+    dispatch(
+      getProductsArray(
+        page,
+        sort,
+        minPrice,
+        maxPrice,
+        grade,
+        roasting,
+        brand,
+        type
+      )
+    );
   }, [dispatch, sort]);
 
   return (
