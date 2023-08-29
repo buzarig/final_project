@@ -1,9 +1,12 @@
-import React from "react";
-import Radio from "@mui/material/Radio";
-import RadioGroup from "@mui/material/RadioGroup";
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-expressions */
+import React, { useState, useEffect } from "react";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
+import FormGroup from "@mui/material/FormGroup";
+import Checkbox from "@mui/material/Checkbox";
+import { useDispatch, useSelector } from "react-redux";
+import { getProductsArray } from "../../redux/actions/merchandiseActions";
 
 const styleFormLabel = {
   fontFamily: "Mont",
@@ -12,7 +15,15 @@ const styleFormLabel = {
   fontStyle: "normal",
   color: "black"
 };
-const styleRadioLabel = {
+
+const styleGroup = {
+  height: "170px",
+  width: "200px",
+  borderBottom: "1px solid #b3b9b857",
+  marginBottom: "18px"
+};
+
+const styleCheckLabel = {
   ".MuiFormControlLabel-label": {
     fontFamily: "Mont",
     fontSize: "16px",
@@ -21,83 +32,104 @@ const styleRadioLabel = {
     color: "#515554c5"
   }
 };
-const styleRadio = { "&.Mui-checked": { color: "#0B3E36" } };
+const styleCheckbox = { "&.Mui-checked": { color: "#0B3E36" } };
 
-const RadioButtonsFilter = () => (
-  <>
-    <FormControl
-      style={{
-        height: "170px",
-        width: "200px",
-        borderBottom: "1px solid #b3b9b857",
-        marginBottom: "18px"
-      }}
-    >
-      <FormLabel id="demo-radio-buttons-group-label" style={styleFormLabel}>
-        Бренди
-      </FormLabel>
-      <RadioGroup
-        aria-labelledby="demo-radio-buttons-group-label"
-        defaultValue="female"
-        name="radio-buttons-group"
-      >
+const RadioButtonsFilter = () => {
+  const [stateCheck, setStateCheck] = useState({
+    lavazza: false,
+    alvorada: false,
+    primaItaliano: false,
+    instant: false,
+    ground: false,
+    inGrains: false
+  });
+  const { page, sort, minPrice, maxPrice, grade, roasting } = useSelector(
+    (state) => state.merchandise
+  );
+  const dispatch = useDispatch();
+
+  const stateChange = (event) => {
+    event.target.checked
+      ? setStateCheck({ ...stateCheck, [event.target.value]: true })
+      : setStateCheck({ ...stateCheck, [event.target.value]: false });
+  };
+
+  const { lavazza, alvorada, primaItaliano, instant, ground, inGrains } =
+    stateCheck;
+
+  useEffect(() => {
+    const brand = [];
+    lavazza && brand.push("Lavazza");
+    alvorada && brand.push("Alvorada");
+    primaItaliano && brand.push("Prima Italiano");
+    const type = [];
+    instant && type.push("instant");
+    ground && type.push("ground");
+    inGrains && type.push("in_grains");
+    dispatch(
+      getProductsArray(
+        page,
+        sort,
+        minPrice,
+        maxPrice,
+        grade,
+        roasting,
+        brand,
+        type
+      )
+    );
+  }, [dispatch, lavazza, alvorada, primaItaliano, instant, ground, inGrains]);
+
+  return (
+    <>
+      <FormGroup style={styleGroup}>
+        <FormLabel id="demo-radio-buttons-group-label" style={styleFormLabel}>
+          Бренди
+        </FormLabel>
         <FormControlLabel
           value="lavazza"
-          control={<Radio sx={styleRadio} />}
+          control={<Checkbox sx={styleCheckbox} onChange={stateChange} />}
           label="Lavazza"
-          sx={{ ...styleRadioLabel }}
+          sx={{ ...styleCheckLabel }}
         />
         <FormControlLabel
-          value="montecelio"
-          control={<Radio sx={styleRadio} />}
-          label="Montecelio"
-          sx={{ ...styleRadioLabel }}
+          value="alvorada"
+          control={<Checkbox sx={styleCheckbox} onChange={stateChange} />}
+          label="Alvorada"
+          sx={{ ...styleCheckLabel }}
         />
         <FormControlLabel
-          value="prima italiano"
-          control={<Radio sx={styleRadio} />}
+          value="primaItaliano"
+          control={<Checkbox sx={styleCheckbox} onChange={stateChange} />}
           label="Prima Italiano"
-          sx={{ ...styleRadioLabel }}
+          sx={{ ...styleCheckLabel }}
         />
-      </RadioGroup>
-    </FormControl>
-    <FormControl
-      style={{
-        height: "170px",
-        width: "200px",
-        borderBottom: "1px solid #b3b9b857",
-        marginBottom: "18px"
-      }}
-    >
-      <FormLabel id="demo-radio-buttons-group-label" style={styleFormLabel}>
-        Тип
-      </FormLabel>
-      <RadioGroup
-        aria-labelledby="demo-radio-buttons-group-label"
-        defaultValue="female"
-        name="radio-buttons-group"
-      >
+      </FormGroup>
+      <FormGroup style={styleGroup}>
+        <FormLabel id="demo-radio-buttons-group-label" style={styleFormLabel}>
+          Тип
+        </FormLabel>
         <FormControlLabel
-          value="мелена"
-          control={<Radio sx={styleRadio} />}
+          value="ground"
+          control={<Checkbox sx={styleCheckbox} onChange={stateChange} />}
           label="мелена"
-          sx={{ ...styleRadioLabel }}
+          sx={{ ...styleCheckLabel }}
         />
         <FormControlLabel
-          value="в зернах"
-          control={<Radio sx={styleRadio} />}
+          value="inGrains"
+          control={<Checkbox sx={styleCheckbox} onChange={stateChange} />}
           label="в зернах"
-          sx={{ ...styleRadioLabel }}
+          sx={{ ...styleCheckLabel }}
         />
         <FormControlLabel
-          value="розчинна"
-          control={<Radio sx={styleRadio} />}
+          value="instant"
+          control={<Checkbox sx={styleCheckbox} onChange={stateChange} />}
           label="розчинна"
-          sx={{ ...styleRadioLabel }}
+          sx={{ ...styleCheckLabel }}
         />
-      </RadioGroup>
-    </FormControl>
-  </>
-);
+      </FormGroup>
+    </>
+  );
+};
 
 export default RadioButtonsFilter;
