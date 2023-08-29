@@ -1,21 +1,31 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../../styles/_productCard.scss";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-// import product from "../../assets/images/card/product.png";
+import mainproduct from "../../assets/images/card/product.png";
 import vector from "../../assets/images/card/vector.png";
 import twitter from "../../assets/images/card/twitter.svg";
 import facebook from "../../assets/images/card/facebook.svg";
 import instagram from "../../assets/images/card/instagram.svg";
-import { addProductToCart } from "../../redux/basket/actions";
+import { addProductToCart } from "../../redux/actions/basketActions";
+// import api from "../../http/api";
 
 const Product = (props) => {
   const { product } = props;
   const [qty, setQty] = useState(1);
   const dispatch = useDispatch();
+
   const handleAddToCart = (selectedProduct) => {
     dispatch(addProductToCart(selectedProduct, qty));
   };
+
+  // useEffect(() => {
+  //   api.get(`/products`).then((response) => {
+  //     // setProductData(response.data);
+  //     console.log(response.data);
+  //   });
+  // }, []);
+
   return (
     <div>
       <div className="nav-link">
@@ -30,7 +40,7 @@ const Product = (props) => {
       <div className="product">
         <div className="product__wrapper">
           <div>
-            <img className="product__image" src={product} alt="Product" />
+            <img className="product__image" src={mainproduct} alt="Product" />
           </div>
           <div className="product__wrapper-content">
             <div className="product__description">
@@ -71,7 +81,7 @@ const Product = (props) => {
                     +
                   </button>
                   {/* it's example input, please, change your className="button_count-amount" and use this props */}
-                  <input
+                  {/* <input
                     defaultValue={1}
                     max={product.quantity}
                     onChange={(event) =>
@@ -79,7 +89,7 @@ const Product = (props) => {
                     }
                     name={`qty_${product.itemNo}`}
                     type="number"
-                  />
+                  /> */}
                   <p className="button_count-amount">1</p>
                   <button type="submit">-</button>
                 </div>
