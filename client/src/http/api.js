@@ -6,13 +6,17 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const newConfig = config;
-  newConfig.headers.authorization =
-    JSON.parse(localStorage.getItem("token")) || "null";
+  const newConfig = { ...config };
+  const token = localStorage.getItem("token") || null;
+
+  if (token) {
+    newConfig.headers.authorization = token.replace("Bearer ", "");
+  } else {
+    delete newConfig.headers.authorization;
+  }
+
   return newConfig;
 });
-
-export default api;
 
 // example
 
