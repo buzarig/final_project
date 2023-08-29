@@ -1,26 +1,21 @@
-import React, {useEffect} from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 import "../../styles/_productCard.scss";
 import { useSelector } from "react-redux";
-// import product from "../../assets/images/card/product.png";
 import vector from "../../assets/images/card/vector.png";
 import twitter from "../../assets/images/card/twitter.svg";
 import facebook from "../../assets/images/card/facebook.svg";
 import instagram from "../../assets/images/card/instagram.svg";
-import { addProductToCart } from "../../redux/basket/actions";
 
 const Product = () => {
   const { productId } = useParams();
   const { products } = useSelector((state) => state.merchandise);
-  
-  const product = products.find(prod=>prod.itemNo === productId);
 
-  console.log(prod=>prod.itemNo === productId);
+  const product = products.find((prod) => prod.itemNo === productId);
 
   return (
     <div className="product">
       <div className="product__wrapper">
-        {/* <div className="carusel">Карусель</div> */}
         <div>
           <img
             className="product__image"

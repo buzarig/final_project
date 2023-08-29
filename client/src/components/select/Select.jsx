@@ -3,14 +3,13 @@
 
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProductsArray } from "../../redux/actions/merchandise";
+import { getProductsArray } from "../../redux/actions/merchandiseActions";
 import "./_select.scss";
 
 const Select = () => {
   const [sort, setSort] = useState(null);
-  const { minPrice, maxPrice, page, grade, roasting, brand, type } = useSelector(
-    (state) => state.merchandise
-  );
+  const { minPrice, maxPrice, page, grade, roasting, brand, type } =
+    useSelector((state) => state.merchandise);
   const dispatch = useDispatch();
 
   const handleChange = (event) => {
@@ -18,7 +17,18 @@ const Select = () => {
   };
 
   useEffect(() => {
-    dispatch(getProductsArray(page, sort, minPrice, maxPrice, grade, roasting, brand, type));
+    dispatch(
+      getProductsArray(
+        page,
+        sort,
+        minPrice,
+        maxPrice,
+        grade,
+        roasting,
+        brand,
+        type
+      )
+    );
   }, [dispatch, sort]);
 
   return (

@@ -1,8 +1,10 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-expressions */
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProductsArray } from "../../redux/actions/merchandise";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import { getProductsArray } from "../../redux/actions/merchandiseActions";
 import "./_filterButton.scss";
 
 const styleButton = {
@@ -45,7 +47,18 @@ const FilterButton = () => {
     average[1] && roasting.push("medium");
     dark[1] && roasting.push("dark");
     light[1] && roasting.push("light");
-    dispatch(getProductsArray(page, sort, minPrice, maxPrice, grade, roasting, brand, type));
+    dispatch(
+      getProductsArray(
+        page,
+        sort,
+        minPrice,
+        maxPrice,
+        grade,
+        roasting,
+        brand,
+        type
+      )
+    );
   }, [dispatch, arabic[1], rabusta[1], average[1], dark[1], light[1]]);
 
   const stateChange = (stateButton, nameButton) => {

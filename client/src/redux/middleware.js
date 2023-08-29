@@ -1,3 +1,4 @@
+/* eslint-disable arrow-body-style */
 import { compose } from "redux";
 import { createLogger } from "redux-logger";
 import thunk from "redux-thunk";
@@ -21,7 +22,6 @@ const developmentEnvironment = process.env.NODE_ENV === "development";
 const devtools = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__;
 const composeEnhancers =
   developmentEnvironment && devtools ? devtools : compose;
-
 
 const middleware = [thunk];
 // const middleware = [thunk, productsMiddleware];
