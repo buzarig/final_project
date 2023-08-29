@@ -11,18 +11,29 @@ import FilterButton from "../components/filter/FilterButton";
 import RadioButtonsFilter from "../components/filter/FilterRadio";
 import useViewport from "../custom_hooks/viewport";
 
-
-import { getProductsArray } from "../redux/actions/merchandise";
+import { getProductsArray } from "../redux/actions/merchandiseActions";
 
 import filterBtn from "../assets/images/filter-button/filter.png";
 import "../styles/_catalog.scss";
 
 const Catalog = () => {
-  const {products, sort, minPrice, maxPrice, grade, roasting, brand, type} = useSelector((state) => state.merchandise);
+  const { products, sort, minPrice, maxPrice, grade, roasting, brand, type } =
+    useSelector((state) => state.merchandise);
   const dispatch = useDispatch();
 
   function changePage(page) {
-    dispatch(getProductsArray(page, sort, minPrice, maxPrice, grade, roasting, brand, type));
+    dispatch(
+      getProductsArray(
+        page,
+        sort,
+        minPrice,
+        maxPrice,
+        grade,
+        roasting,
+        brand,
+        type
+      )
+    );
   }
 
   const [isFilterOpen, setFilterOpen] = useState(false);
@@ -49,17 +60,13 @@ const Catalog = () => {
       <hr className="line" />
       <div className="form">
         <Search />
-        <Select page={currentPage} />
+        <Select />
         <button onClick={toggleFilter} type="button" className="filter_btn">
           <img src={filterBtn} alt="" />
         </button>
       </div>
       <div className="cards-list__wrapper">
-        {products.length ? (
-          <Cards products={products} />
-        ) : (
-          <h2>loading...</h2>
-        )}
+        {products.length ? <Cards products={products} /> : <h2>loading...</h2>}
 
         {(width > breakpoint || isFilterOpen) && (
           <div className="sidebar">

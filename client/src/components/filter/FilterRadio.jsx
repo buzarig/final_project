@@ -1,10 +1,12 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-unused-expressions */
 import React, { useState, useEffect } from "react";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormLabel from "@mui/material/FormLabel";
 import FormGroup from "@mui/material/FormGroup";
 import Checkbox from "@mui/material/Checkbox";
 import { useDispatch, useSelector } from "react-redux";
-import { getProductsArray } from "../../redux/actions/merchandise";
+import { getProductsArray } from "../../redux/actions/merchandiseActions";
 
 const styleFormLabel = {
   fontFamily: "Mont",

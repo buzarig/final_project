@@ -1,12 +1,14 @@
+/* eslint-disable no-unused-expressions */
+/* eslint-disable react-hooks/exhaustive-deps */
 // eslint-disable react/destructuring-assignment
 
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getProductsArray } from "../../redux/actions/merchandise";
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import { styled } from "@mui/material/styles";
 import MuiInput from "@mui/material/Input";
+import { getProductsArray } from "../../redux/actions/merchandiseActions";
 import "./_filterSlider.scss";
 
 const PriceSlider = styled(Slider)(({ theme }) => ({
@@ -60,13 +62,24 @@ const FilterSlider = ({ filterName }) => {
   );
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getProductsArray(page, sort, value[0], value[1], grade, roasting, brand, type));
+    dispatch(
+      getProductsArray(
+        page,
+        sort,
+        value[0],
+        value[1],
+        grade,
+        roasting,
+        brand,
+        type
+      )
+    );
   }, [dispatch, value]);
 
   const handleChange = (event, newValue) => {
     let minValue = value[0] !== newValue[0] ? newValue[0] - 0.01 : newValue[0];
     let maxValue = value[1] !== newValue[1] ? newValue[1] - 0.01 : newValue[1];
-    maxValue === 479.98 && (maxValue = maxValue + 0.01);
+    maxValue === 479.98 && (maxValue += 0.01);
     minValue < 49.99 && (minValue = 49.99);
     setValue([minValue, maxValue]);
   };

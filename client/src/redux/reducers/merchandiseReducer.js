@@ -2,15 +2,22 @@
 import types from "../types";
 
 const initialState = {
-  products: []
+  products: [],
+  page: 1,
+  sort: null,
+  minPrice: 49.99,
+  maxPrice: 479.99,
+  grade: [],
+  roasting: [],
+  brand: [],
+  type: []
 };
 
 function merchandiseReducer(state = initialState, action) {
   switch (action.type) {
     case types.GET_ALL_PRODUCTS:
       return {
-        ...state,
-        products: action.payload.products
+        ...action.payload
       };
     default:
       return state;
