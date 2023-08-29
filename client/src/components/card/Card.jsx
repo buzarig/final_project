@@ -5,7 +5,7 @@ import "./_Card.scss";
 const Card = ({ product }) => (
   <div className="card">
     {product.previousPrice ? <div className="card__sale">SALE</div> : null}
-    <Link to="catalog/:productId" className="product_link">
+    <Link to={`${product.itemNo}`} className="product_link">
       <img className="card__image" src={product.imageUrls[0]} alt="Product" />
     </Link>
     <div className="card__description">
