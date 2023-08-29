@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/_login.scss";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
@@ -13,39 +13,13 @@ const LoginForm = () => {
 
   const [isAuthorized, setIsAuthorized] = useState(false);
 
-  // const onSubmit = async (data) => {
-  //   try {
-  //     const response = await axios.post("/customers/login", data);
-  //     if (response.status === 200) {
-  //       setIsAuthorized(true);
-  //     } else {
-  //       setIsAuthorized(false);
-  //     }
-  //   } catch (error) {
-  //     console.error("Помилка при авторизації:", error);
-  //     setIsAuthorized(false);
-  //   }
-  // };
-
-  // const onSubmit = (data) => {
-  //   const storedUserData = JSON.parse(
-  //     localStorage.getItem("userRegistrationData")
-  //   );
-
-  //   if (
-  //     storedUserData &&
-  //     data.email === storedUserData.email &&
-  //     data.password === storedUserData.password
-  //   ) {
-  //     setIsAuthorized(true);
-  //   } else {
-  //     setIsAuthorized(false);
-  //   }
-  // };
   const onSubmit = async (data) => {
     try {
       const response = await api.post("/customers/login", data);
       if (response.status === 200) {
+        const { token } = response.data;
+        console.log(token);
+        localStorage.setItem("token", token);
         setIsAuthorized(true);
       } else {
         setIsAuthorized(false);
@@ -55,8 +29,24 @@ const LoginForm = () => {
       setIsAuthorized(false);
     }
 
-    console.log(data);
+    
   };
+
+  const fetchUserData = async (data) => {
+    try {
+      const response = await api.get("/customers/customer", {});
+      console.log(response.data);
+    } catch (error) {
+      console.error("Помилка при отриманні даних користувача:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (isAuthorized) {
+      fetchUserData();
+    }
+  }, [isAuthorized]);
+
   return (
     <div>
       <Link to="/final_project/">
@@ -68,6 +58,7 @@ const LoginForm = () => {
         {isAuthorized ? (
           <div>
             <h1 className="success-login">Дякую за авторизацію</h1>
+            <button onClick={fetchUserData}>Отримати дані користувача</button>
           </div>
         ) : (
           <form
