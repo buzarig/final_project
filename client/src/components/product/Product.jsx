@@ -64,8 +64,14 @@ const Product = () => {
             <div className="price">
               <h4 className="price__title">Ціна</h4>
               <div className="price__amount">
-                <h2 className="price__now">{product.currentPrice} грн</h2>
-                <p className="price__old">{product.previousPrice} грн</p>
+                {product.previousPrice ? (
+                  <>
+                    <p className="price__old">{product.previousPrice} грн</p>
+                    <h2 className="price__now">{product.currentPrice} грн</h2>
+                  </>
+                ) : (
+                  <h2 className="price__now">{product.currentPrice} грн</h2>
+                )}
               </div>
             </div>
             <div className="button_wrapper">
