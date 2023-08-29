@@ -18,6 +18,8 @@ api.interceptors.request.use((config) => {
   return newConfig;
 });
 
+export default api;
+
 // example
 
 // async function getProducts() {
