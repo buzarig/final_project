@@ -1,7 +1,8 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
-/* eslint-disable react/function-component-definition */
 /* eslint-disable react/destructuring-assignment */
-import React, { useEffect } from "react";
+/* eslint-disable react/function-component-definition */
+import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
@@ -38,29 +39,19 @@ const responsive = {
 };
 
 function ProductsCarousel(props) {
-  useEffect(() => {
-    fetch("http://localhost:4000/api/", {
-      method: "GET"
-    })
-      .then((res) => res.json())
-      .then((data) => console.log(data))
-      .catch((error) => console.error(error));
-  }, []);
-
   const products = props.products.map((item) => (
-    <Card product={item} key={item.id} />
+    <Card product={item} key={item._id} />
   ));
   return (
     <div className="carousel">
       <h1>{props.title}</h1>
       <Carousel
         showDots
-        infinite
         responsive={responsive}
         containerClass="carousel-container"
         dotListClass="custom-dot-list-style"
         itemClass="carousel-item"
-        ssr
+        renderDotsOutside
       >
         {products}
       </Carousel>

@@ -11,6 +11,7 @@ import FilterButton from "../components/filter/FilterButton";
 import RadioButtonsFilter from "../components/filter/FilterRadio";
 import useViewport from "../custom_hooks/viewport";
 
+
 import { getProductsArray } from "../redux/actions/merchandise";
 
 import filterBtn from "../assets/images/filter-button/filter.png";
@@ -48,7 +49,7 @@ const Catalog = () => {
       <hr className="line" />
       <div className="form">
         <Search />
-        <Select />
+        <Select page={currentPage} />
         <button onClick={toggleFilter} type="button" className="filter_btn">
           <img src={filterBtn} alt="" />
         </button>

@@ -2,11 +2,13 @@ import React, { useState } from "react";
 
 import { useForm } from "react-hook-form";
 
+import { useSelector } from "react-redux";
 import ScrollOrder from "../scrollOrder/ScrollOrder";
 import OrderHeader from "../orderHeader/OrderHeader";
 import delivery from "../../assets/images/basket/delivery.png";
 
-const Form = (props) => {
+const Form = () => {
+  const productsArray = useSelector((state) => state.basket.productsArray);
   const promoData = [
     {
       id: 1,
@@ -22,8 +24,8 @@ const Form = (props) => {
     }
   ];
 
-  const { items } = props;
   const [selectedPromo, setSelectedPromo] = useState("");
+  const [orderNo, setOrderNo] = useState();
 
   const {
     register,
@@ -37,8 +39,8 @@ const Form = (props) => {
     e.preventDefault();
     const promoCode = getValues().promo;
     const promoItem = promoData.find((promo) => promo.title === promoCode);
-    // eslint-disable-next-line no-console
-    console.log(promoItem);
+
+    // console.log(promoItem);
     if (promoItem) {
       setSelectedPromo(`${promoItem.sum}`);
     } else if (promoItem === undefined) {
@@ -48,22 +50,84 @@ const Form = (props) => {
 
   const watchPromo = watch("promo");
 
-  const onSubmit = (data) => {
-    const promoCode = data.selectedPromo;
-    setSelectedPromo(promoCode);
-    // eslint-disable-next-line no-console
-    console.log(data);
-  };
-
   const getTotalPrice = () => {
-    const totalPrice = items.reduce(
-      (acc, rec) =>
-        acc + (rec.newPrice ? rec.newPrice : rec.price) * rec.quantity,
+    if (!productsArray || productsArray.length === 0) {
+      return 0;
+    }
+    const totalPrice = productsArray.reduce(
+      (acc, { product, cartQuantity }) =>
+        acc + product.currentPrice * cartQuantity,
       0
     );
-    return totalPrice - (totalPrice / 100) * selectedPromo
-      ? totalPrice - (totalPrice / 100) * selectedPromo
-      : totalPrice;
+    if (selectedPromo) {
+      return (totalPrice - (totalPrice / 100) * selectedPromo).toFixed(2);
+    }
+    return totalPrice.toFixed(2);
+  };
+
+  const onSubmit = (data) => {
+    if (!productsArray || productsArray.length === 0) {
+      console.error("The list of products is required, but absent!");
+      return;
+    }
+    const formData = {
+      name: data.name,
+      lastname: data.lastname,
+      mobile: data.mobile,
+      email: data.email,
+      country: data.country,
+      city: data.city,
+      delivery: data.delivery,
+      payment: data.payment,
+      promo: data.promo,
+      orderNo: data.orderNo,
+      letterSubject: "Thank you for order! You are welcome!",
+      letterHtml: `<h1>Your order is placed. Your order was successful!. You are welcome!</h1><p>{Other details about order in your HTML}</p>`
+    };
+
+    const orderData = {
+      ...formData,
+
+      products: productsArray
+
+      // products: productsArray.map((product) => ({
+      //   canceled: false,
+      //   _id: product.product._id,
+      //   product: {
+      //     name: product.product.name,
+      //     price: product.product.currentPrice,
+      //     quantity: product.product.quantity,
+      //   },
+      //   cartQuantity: product.cartQuantity,
+      // })),
+    };
+
+    // dispatch(clear());
+    // console.log(orderData);
+    // console.log(orderData.cartQuantity);
+
+    fetch("http://localhost:4000/api/orders", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(orderData)
+    })
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        return response.json();
+      })
+      .then((dataFetch) => {
+        setOrderNo(dataFetch.order.orderNo);
+        // console.log(orderNo);
+        // console.log(dataFetch);
+        // console.log(dataFetch.order.orderNo);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      });
   };
 
   return (
@@ -105,7 +169,7 @@ const Form = (props) => {
                 placeholder="E-mail"
                 {...register("email", { required: true })}
               />
-              {errors.phone && <span>*Це поле обовязкове</span>}
+              {errors.email && <span>*Це поле обовязкове</span>}
             </div>
 
             <div className="span_flex">
@@ -199,7 +263,7 @@ const Form = (props) => {
         </div>
       </div>
       <div className="form_right">
-        <ScrollOrder items={items} />
+        <ScrollOrder />
         <div className="together">
           <div className="together_container">
             <div>
@@ -235,7 +299,13 @@ const Form = (props) => {
                 <p className="together_price"> {getTotalPrice()} грн</p>
               </>
             )}
-
+            {orderNo && (
+              <div className="popup">
+                <p style={{ color: "red" }}>
+                  Номер вашого замовлення: {orderNo}
+                </p>
+              </div>
+            )}
             <div className="together_img">
               <img className="img" alt="img" src={delivery} />
               <p>У вас є безкоштовна доставка!</p>

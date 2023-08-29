@@ -13,6 +13,7 @@ import Basket from "./pages/Basket";
 import RegisterForm from "./pages/Register";
 import LoginForm from "./pages/Login";
 import Product from "./components/product/Product";
+// import CatalogTemp from "./pages/CatalogTemp";
 
 const App = () => (
   <div>

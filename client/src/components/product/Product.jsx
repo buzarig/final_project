@@ -7,7 +7,7 @@ import vector from "../../assets/images/card/vector.png";
 import twitter from "../../assets/images/card/twitter.svg";
 import facebook from "../../assets/images/card/facebook.svg";
 import instagram from "../../assets/images/card/instagram.svg";
-// import Carousel from "../Carousel";
+import { addProductToCart } from "../../redux/basket/actions";
 
 const Product = () => {
   const { productId } = useParams();

@@ -59,7 +59,6 @@ const FilterSlider = ({ filterName }) => {
     (state) => state.merchandise
   );
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch(getProductsArray(page, sort, value[0], value[1], grade, roasting, brand, type));
   }, [dispatch, value]);
