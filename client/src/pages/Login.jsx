@@ -43,8 +43,6 @@ const LoginForm = () => {
   //   }
   // };
   const onSubmit = async (data) => {
-
-
     try {
       const response = await api.post("/customers/login", data);
       if (response.status === 200) {

@@ -30,7 +30,6 @@ const RegisterForm = () => {
     console.log(data);
   };
 
-
   const password = watch("password", "");
 
   return (
@@ -68,7 +67,9 @@ const RegisterForm = () => {
                 })}
               />
               {errors.firstName && (
-                <span className="register-span">{errors.firstName.message}</span>
+                <span className="register-span">
+                  {errors.firstName.message}
+                </span>
               )}
             </div>
 
@@ -135,7 +136,6 @@ const RegisterForm = () => {
                 <span className="register-span">{errors.password.message}</span>
               )}
             </div>
-
 
             <button type="submit" className="registration-button">
               Реєстрація
