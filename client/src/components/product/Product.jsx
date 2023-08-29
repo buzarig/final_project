@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import "../../styles/_productCard.scss";
 import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import vector from "../../assets/images/card/vector.png";
 import twitter from "../../assets/images/card/twitter.svg";
 import facebook from "../../assets/images/card/facebook.svg";
@@ -13,6 +14,24 @@ const Product = () => {
 
   const product = products.find((prod) => prod.itemNo === productId);
 
+const Product = () => {
+  const { productId } = useParams();
+  const { products } = useSelector((state) => state.merchandise);
+  const [qty, setQty] = useState(1);
+
+  const dispatch = useDispatch();
+  const product = products.find((prod) => prod.itemNo === productId);
+  const handleAddToCart = (selectedProduct) => {
+    dispatch(addProductToCart(selectedProduct, qty));
+  };
+
+  const handleIncCaunt = (increment) => {
+    if (increment > 0) {
+      setQty(qty + increment);
+    } else if (qty > 1) {
+      setQty(qty - 1);
+    }
+  };
   return (
     <div className="product">
       <div className="product__wrapper">
@@ -57,13 +76,23 @@ const Product = () => {
             </div>
             <div className="button_wrapper">
               <div className="button_count">
-                <button type="submit" className="button_count-item">
+                <button
+                  type="button"
+                  disabled={product.quantity <= 0 || qty >= product.quantity}
+                  onClick={() => handleIncCaunt(1)}
+                >
                   +
                 </button>
-                <p className="button_count-amount">1</p>
-                <button type="submit">-</button>
+                <p className="button_count-amount">{qty}</p>
+                <button type="button" onClick={() => handleIncCaunt(-1)}>
+                  -
+                </button>
               </div>
-              <button type="submit" className="button_buy">
+              <button
+                type="submit"
+                className="button_buy"
+                onClick={() => handleAddToCart(product)}
+              >
                 Придбати
               </button>
             </div>
@@ -108,5 +137,5 @@ const Product = () => {
     </div>
   );
 };
-
+};
 export default Product;
