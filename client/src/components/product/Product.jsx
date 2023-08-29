@@ -1,47 +1,111 @@
-import React, { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import "../../styles/_productCard.scss";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import React, { useState } from "react";
+
+import mainproduct from "../../assets/images/card/product.png";
 import vector from "../../assets/images/card/vector.png";
 import twitter from "../../assets/images/card/twitter.svg";
 import facebook from "../../assets/images/card/facebook.svg";
 import instagram from "../../assets/images/card/instagram.svg";
 import { addProductToCart } from "../../redux/actions/basketActions";
+// import api from "../../http/api";
 
-const Product = () => {
-  const { productId } = useParams();
-  const { products } = useSelector((state) => state.merchandise);
-
-  const product = products.find((prod) => prod.itemNo === productId);
-  const [qty, setQty] = useState(1);
+const Product = (props) => {
+  const { product } = props;
+  const [qty] = useState(1);
   const dispatch = useDispatch();
+  // const { productId } = useParams();
+  // const { products } = useSelector((state) => state.merchandise);
   const handleAddToCart = (selectedProduct) => {
     dispatch(addProductToCart(selectedProduct, qty));
   };
 
-  const handleIncCaunt = (increment) => {
-    if (increment > 0) {
-      setQty(qty + increment);
-    } else if (qty > 1) {
-      setQty(qty - 1);
-    }
-  };
+  // useEffect(() => {
+  //   api.get(`/products`).then((response) => {
+  //     // setProductData(response.data);
+  //     console.log(response.data);
+  //   });
+  // }, []);
+
   return (
-    <div className="product">
-      <div className="product__wrapper">
-        <div>
-          <img
-            className="product__image"
-            src={product.imageUrls[0]}
-            alt="Product"
-          />
-        </div>
-        <div className="product__wrapper-content">
-          <div className="product__description">
-            <h1>
-              {product.name.charAt(0).toUpperCase() + product.name.slice(1)}
-            </h1>
-            <div className="product__description_available">
+    <div>
+      <div className="nav-link">
+        <Link to="/final_project/home" className="home_link">
+          Головна
+        </Link>
+        <span> / </span>
+        <Link to="/final_project/catalog/" className="catalog_link">
+          Каталог
+        </Link>
+      </div>
+      <div className="product">
+        <div className="product__wrapper">
+          <div>
+            <img className="product__image" src={mainproduct} alt="Product" />
+          </div>
+          <div className="product__wrapper-content">
+            <div className="product__description">
+              <h1 className="product__description-title">
+                Кава Melitta Bella Crema Bio (750 г), зерно
+              </h1>
+              <div className="product__description_available">
+                <div>
+                  <img className="icon_vector" src={vector} alt="Available" />
+                  <span className="product__description-available-item">
+                    В наявності
+                  </span>
+                </div>
+                <p className="product__description-article">
+                  {" "}
+                  Артикул:<span> CP-0803</span>
+                </p>
+              </div>
+              <h3>Опис</h3>
+              <p className="product__content">
+                При описі аромату в першу чергу описується його характер:
+                солодкий, насичений, пряний, освіжаючий, а також називаються
+                чотирма дескрипторами. Учасник може порекомендувати суддям
+                спосіб, яким краще оцінювати аромат кави. Наприклад: він тримає
+                судину в руках і пропонує суддям у такий спосіб ознайомитися з
+                ароматом.
+              </p>
+              <div className="price">
+                <h4 className="price__title">Ціна</h4>
+                <div className="price__amount">
+                  <h2 className="price__now">953 грн</h2>
+                  <p className="price__old">1 253 грн</p>
+                </div>
+              </div>
+              <div className="button_wrapper">
+                <div className="button_count">
+                  <button type="submit" className="button_count-item">
+                    +
+                  </button>
+                  {/* it's example input, please, change your className="button_count-amount" and use this props */}
+                  {/* <input
+                    defaultValue={1}
+                    max={product.quantity}
+                    onChange={(event) =>
+                      setQty(parseInt(event.target.value, 10))
+                    }
+                    name={`qty_${product.itemNo}`}
+                    type="number"
+                  /> */}
+                  <p className="button_count-amount">1</p>
+                  <button type="submit">-</button>
+                </div>
+                <button
+                  type="submit"
+                  className="button_buy"
+                  onClick={() => handleAddToCart(product)}
+                >
+                  Придбати
+                </button>
+              </div>
+            </div>
+            <div className="product__share">
+              <span>Поділитися</span>
               <div>
                 <img className="icon_vector" src={vector} alt="Available" />
                 <span className="product__description-available-item">
@@ -70,23 +134,13 @@ const Product = () => {
             </div>
             <div className="button_wrapper">
               <div className="button_count">
-                <button
-                  type="button"
-                  disabled={product.quantity <= 0 || qty >= product.quantity}
-                  onClick={() => handleIncCaunt(1)}
-                >
+                <button type="submit" className="button_count-item">
                   +
                 </button>
-                <p className="button_count-amount">{qty}</p>
-                <button type="button" onClick={() => handleIncCaunt(-1)}>
-                  -
-                </button>
+                <p className="button_count-amount">1</p>
+                <button type="submit">-</button>
               </div>
-              <button
-                type="submit"
-                className="button_buy"
-                onClick={() => handleAddToCart(product)}
-              >
+              <button type="submit" className="button_buy">
                 Придбати
               </button>
             </div>
