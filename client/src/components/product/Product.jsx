@@ -1,26 +1,20 @@
 import React, { useState } from "react";
 import { useParams } from "react-router-dom";
 import "../../styles/_productCard.scss";
-import { useSelector } from "react-redux";
 import { useDispatch, useSelector } from "react-redux";
 import vector from "../../assets/images/card/vector.png";
 import twitter from "../../assets/images/card/twitter.svg";
 import facebook from "../../assets/images/card/facebook.svg";
 import instagram from "../../assets/images/card/instagram.svg";
+import { addProductToCart } from "../../redux/actions/basketActions";
 
 const Product = () => {
   const { productId } = useParams();
   const { products } = useSelector((state) => state.merchandise);
 
   const product = products.find((prod) => prod.itemNo === productId);
-
-const Product = () => {
-  const { productId } = useParams();
-  const { products } = useSelector((state) => state.merchandise);
   const [qty, setQty] = useState(1);
-
   const dispatch = useDispatch();
-  const product = products.find((prod) => prod.itemNo === productId);
   const handleAddToCart = (selectedProduct) => {
     dispatch(addProductToCart(selectedProduct, qty));
   };
@@ -137,5 +131,5 @@ const Product = () => {
     </div>
   );
 };
-};
+
 export default Product;
