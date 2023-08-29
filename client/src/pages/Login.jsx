@@ -28,11 +28,9 @@ const LoginForm = () => {
       console.error("Помилка при авторизації:", error);
       setIsAuthorized(false);
     }
-
-    
   };
 
-  const fetchUserData = async (data) => {
+  const fetchUserData = async () => {
     try {
       const response = await api.get("/customers/customer", {});
       console.log(response.data);
@@ -58,7 +56,9 @@ const LoginForm = () => {
         {isAuthorized ? (
           <div>
             <h1 className="success-login">Дякую за авторизацію</h1>
-            <button onClick={fetchUserData}>Отримати дані користувача</button>
+            <button type="submit" onClick={fetchUserData}>
+              Отримати дані користувача
+            </button>
           </div>
         ) : (
           <form

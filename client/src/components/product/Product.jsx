@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "../../styles/_productCard.scss";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -12,7 +12,7 @@ import { addProductToCart } from "../../redux/actions/basketActions";
 
 const Product = (props) => {
   const { product } = props;
-  const [qty, setQty] = useState(1);
+  const [qty] = useState(1);
   const dispatch = useDispatch();
 
   const handleAddToCart = (selectedProduct) => {

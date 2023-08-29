@@ -8,8 +8,8 @@ const RegisterForm = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
-    watch
+    formState: { errors }
+    // watch
   } = useForm();
 
   const [isRegistered, setIsRegistered] = useState(false);
@@ -29,7 +29,7 @@ const RegisterForm = () => {
     console.log(data);
   };
 
-  const password = watch("password", "");
+  // const password = watch("password", "");
 
   return (
     <div>
