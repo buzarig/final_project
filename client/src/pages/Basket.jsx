@@ -13,7 +13,6 @@ import {
 
 const Basket = () => {
   const productsArray = useSelector((state) => state.basket.productsArray);
-  // const quantity = useSelector((state) => state.catalog.quantity);
   const isDeleting = useSelector((state) => state.basket.isDeleting);
   const dispatch = useDispatch();
 
@@ -34,7 +33,7 @@ const Basket = () => {
   return (
     <div className="basket">
       <div className="link_nav_basket">
-        <Link to="/home" className="general_link">
+        <Link to="/" className="general_link">
           Головна
         </Link>
         <span> / </span>
@@ -98,7 +97,6 @@ const Basket = () => {
                             type="button"
                             className="product-card__count-button"
                             onClick={() => handleDecreaseCount(index)}
-                            // disabled={isDeleting}
                             style={{ backgroundColor: "rgb(255,255,255)" }}
                           >
                             -
@@ -132,7 +130,7 @@ const Basket = () => {
                           <span
                             className="current-price"
                             style={{
-                              color: product.previousPrice && "#9B0000",
+                              color: product.product.previousPrice && "#9B0000",
                               fontWeight: product.product.previousPrice && 800
                             }}
                           >

@@ -13,7 +13,7 @@ import Basket from "./pages/Basket";
 import RegisterForm from "./pages/Register";
 import LoginForm from "./pages/Login";
 import Product from "./components/product/Product";
-// import CatalogTemp from "./pages/CatalogTemp";
+import Cabinet from "./pages/Cabinet";
 
 const App = () => (
   <div>
@@ -31,6 +31,7 @@ const App = () => (
         <Route path="login" element={<LoginForm />} />
         <Route path="thanks" element={<Thanks />} />
         <Route path="order" element={<Order />} />
+        <Route path="cabinet" element={<Cabinet />} />
       </Route>
     </Routes>
     <Footer />

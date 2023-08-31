@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 
 import "../../styles/_header.scss";
 
+import { useSelector } from "react-redux";
 import mainLogo from "../../assets/images/header/main-logo.png";
 import heartLogo from "../../assets/images/header/heart-logo.png";
 import cabinetLogo from "../../assets/images/header/cabinet-logo.png";
@@ -13,6 +14,12 @@ import menuBtn from "../../assets/images/header/header-menu-btn.png";
 const Header = () => {
   const [isMenuOpen, setMenuOpen] = useState(false);
   const menuRef = useRef(null);
+
+  const productsArray = useSelector((state) => state.basket.productsArray);
+  const totalItemsInCart = productsArray.reduce(
+    (total, product) => total + product.cartQuantity,
+    ""
+  );
 
   const toggleMenu = () => {
     setMenuOpen(!isMenuOpen);
@@ -69,7 +76,7 @@ const Header = () => {
             <li>
               <Link to="/basket">
                 <div>
-                  <span>num</span>
+                  <span>{totalItemsInCart}</span>
                   <img src={cartLogo} alt="" />
                 </div>
               </Link>

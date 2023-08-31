@@ -84,26 +84,16 @@ const Form = () => {
       letterSubject: "Thank you for order! You are welcome!",
       letterHtml: `<h1>Your order is placed. Your order was successful!. You are welcome!</h1><p>{Other details about order in your HTML}</p>`
     };
+    console.log(orderNo);
 
     const orderData = {
       ...formData,
 
       products: productsArray
-
-      // products: productsArray.map((product) => ({
-      //   canceled: false,
-      //   _id: product.product._id,
-      //   product: {
-      //     name: product.product.name,
-      //     price: product.product.currentPrice,
-      //     quantity: product.product.quantity,
-      //   },
-      //   cartQuantity: product.cartQuantity,
-      // })),
     };
 
     // dispatch(clear());
-    // console.log(orderData);
+    console.log(orderData);
     // console.log(orderData.cartQuantity);
 
     fetch("http://localhost:4000/api/orders", {
@@ -120,10 +110,8 @@ const Form = () => {
         return response.json();
       })
       .then((dataFetch) => {
+        console.log(dataFetch);
         setOrderNo(dataFetch.order.orderNo);
-        // console.log(orderNo);
-        // console.log(dataFetch);
-        // console.log(dataFetch.order.orderNo);
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -141,10 +129,37 @@ const Form = () => {
             </div>
             <div className="span_flex">
               <input
-                placeholder="Імя"
+                placeholder="Ім'я"
                 {...register("name", { required: true })}
               />
-              {errors.name && <span>*Це поле обовязкове</span>}
+              {errors.name && (
+                <span className="required_span">
+                  <svg
+                    width="25px"
+                    height="25px"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="#9B0000"
+                      strokeWidth="1.5"
+                    />
+                    <path
+                      d="M12 7V13"
+                      stroke="#9B0000"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                    <circle cx="12" cy="16" r="1" fill="#9B0000" />
+                  </svg>
+                  {/* eslint-disable-next-line react/no-unescaped-entities */}
+                  Це поле обовя'зкове
+                </span>
+              )}
             </div>
 
             <div className="span_flex">
@@ -152,15 +167,70 @@ const Form = () => {
                 placeholder="Прізвище"
                 {...register("lastname", { required: true })}
               />
-              {errors.name && <span>*Це поле обовязкове</span>}
+              {errors.lastname && (
+                <span className="required_span">
+                  {" "}
+                  <svg
+                    width="25px"
+                    height="25px"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="#9B0000"
+                      strokeWidth="1.5"
+                    />
+                    <path
+                      d="M12 7V13"
+                      stroke="#9B0000"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                    <circle cx="12" cy="16" r="1" fill="#9B0000" />
+                  </svg>
+                  {/* eslint-disable-next-line react/no-unescaped-entities */}
+                  Це поле обовя'зкове
+                </span>
+              )}
             </div>
 
             <div className="span_flex">
               <input
                 placeholder="Телефон"
-                {...register("phone", { required: true })}
+                {...register("mobile", { required: true })}
               />
-              {errors.phone && <span>*Це поле обовязкове</span>}
+              {errors.mobile && (
+                <span className="required_span">
+                  <svg
+                    width="25px"
+                    height="25px"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="#9B0000"
+                      strokeWidth="1.5"
+                    />
+                    <path
+                      d="M12 7V13"
+                      stroke="#9B0000"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                    <circle cx="12" cy="16" r="1" fill="#9B0000" />
+                  </svg>
+                  {/* eslint-disable-next-line react/no-unescaped-entities */}
+                  Це поле обовя'зкове
+                </span>
+              )}
             </div>
           </div>
           <div>
@@ -169,7 +239,35 @@ const Form = () => {
                 placeholder="E-mail"
                 {...register("email", { required: true })}
               />
-              {errors.email && <span>*Це поле обовязкове</span>}
+              {errors.email && (
+                <span className="required_span">
+                  {" "}
+                  <svg
+                    width="25px"
+                    height="25px"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="#9B0000"
+                      strokeWidth="1.5"
+                    />
+                    <path
+                      d="M12 7V13"
+                      stroke="#9B0000"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                    <circle cx="12" cy="16" r="1" fill="#9B0000" />
+                  </svg>
+                  {/* eslint-disable-next-line react/no-unescaped-entities */}
+                  Це поле обовя'зкове
+                </span>
+              )}
             </div>
 
             <div className="span_flex">
@@ -177,7 +275,35 @@ const Form = () => {
                 placeholder="Країна"
                 {...register("country", { required: true })}
               />
-              {errors.country && <span>*Це поле обовязкове</span>}
+              {errors.country && (
+                <span className="required_span">
+                  {" "}
+                  <svg
+                    width="25px"
+                    height="25px"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="#9B0000"
+                      strokeWidth="1.5"
+                    />
+                    <path
+                      d="M12 7V13"
+                      stroke="#9B0000"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                    <circle cx="12" cy="16" r="1" fill="#9B0000" />
+                  </svg>
+                  {/* eslint-disable-next-line react/no-unescaped-entities */}
+                  Це поле обовя'зкове
+                </span>
+              )}
             </div>
 
             <div className="span_flex">
@@ -185,7 +311,35 @@ const Form = () => {
                 placeholder="Місто"
                 {...register("city", { required: true })}
               />
-              {errors.country && <span>*Це поле обовязкове</span>}
+              {errors.country && (
+                <span className="required_span">
+                  {" "}
+                  <svg
+                    width="25px"
+                    height="25px"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <circle
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="#9B0000"
+                      strokeWidth="1.5"
+                    />
+                    <path
+                      d="M12 7V13"
+                      stroke="#9B0000"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                    <circle cx="12" cy="16" r="1" fill="#9B0000" />
+                  </svg>
+                  {/* eslint-disable-next-line react/no-unescaped-entities */}
+                  Це поле обовя'зкове
+                </span>
+              )}
             </div>
           </div>
         </div>
@@ -234,7 +388,12 @@ const Form = () => {
             Ви можете забрати з нашого офіційного магазину за адресою Бажана
             8-Б, Київ, 02132 Україна
           </p>
-          {errors.delivery && <span>*Це поле обовязкове</span>}
+          {errors.delivery && (
+            <span className="required_span">
+              {/* eslint-disable-next-line react/no-unescaped-entities */}
+              Це поле обовя'зкове
+            </span>
+          )}
         </div>
         <div className="hr" />
         <div className="block_center_m block_center_pay">
@@ -259,7 +418,12 @@ const Form = () => {
             />
             <p className="radio_btn_title"> Онлайн-оплата карткою</p>
           </label>
-          {errors.delivery && <span>*Це поле обовязкове</span>}
+          {errors.delivery && (
+            <span className="required_span">
+              {/* eslint-disable-next-line react/no-unescaped-entities */}
+              Це поле обовя'зкове
+            </span>
+          )}
         </div>
       </div>
       <div className="form_right">
