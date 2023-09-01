@@ -1,6 +1,5 @@
 form {
-   cursor: default;
-  //max-width: 1400px;
+  cursor: default;
   margin: 0 auto;
   display: flex;
   justify-content: space-between;
@@ -11,6 +10,7 @@ form {
 
     .block_center_m {
       padding: 0px 71px 32px 0px;
+      font-family: 'Montserrat';
 
       span {
         color: #9B0000;
@@ -45,7 +45,22 @@ form {
         display: flex;
         flex-direction: column;
         color: #9B0000;
+        font-family: 'Montserrat';
+        position: relative;
 
+      }
+
+      .required_span {
+
+        position: absolute;
+        bottom: -18px;
+        left: 0;
+
+        svg {
+          position: absolute;
+          bottom: 30px;
+          left: 275px;
+        }
       }
 
 
@@ -54,7 +69,6 @@ form {
         width: 327px;
         height: 50px;
         padding: 0 0 0 15px;
-        //padding: 11px 112px 16px 16px;
         margin-top: 30px;
         margin-right: 30px;
         color: #A1A1A1;
@@ -164,9 +178,10 @@ form {
         }
 
         .btn_promo {
-          &:disabled{
+          &:disabled {
             opacity: 0.4;
           }
+
           background: linear-gradient(92.18deg, #5E3928 20.13%, #E4A16F 92.93%);
           padding: 16px 16px;
           color: #FFFFFF;
@@ -225,7 +240,8 @@ form {
     display: flex;
     flex-direction: column;
     align-items: center;
-    .form_right{
+
+    .form_right {
       align-items: center;
     }
 
@@ -319,6 +335,20 @@ form {
             margin-left: 16px;
           }
 
+          .required_span {
+
+
+            position: absolute;
+            bottom: -18px;
+            left: 0;
+
+            svg {
+              position: absolute;
+              bottom: 30px;
+              left: 250px;
+            }
+
+          }
 
         }
 

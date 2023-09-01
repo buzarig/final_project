@@ -12,11 +12,14 @@ const Product = () => {
   const { productId } = useParams();
   const { products } = useSelector((state) => state.merchandise);
   const [qty, setQty] = useState(1);
+  const [showSuccessAnimation, setShowSuccessAnimation] = useState(false);
 
   const dispatch = useDispatch();
   const product = products.find((prod) => prod.itemNo === productId);
   const handleAddToCart = (selectedProduct) => {
     dispatch(addProductToCart(selectedProduct, qty));
+    setShowSuccessAnimation(true);
+    setTimeout(() => setShowSuccessAnimation(false), 3000);
   };
 
   const handleIncCaunt = (increment) => {
@@ -92,9 +95,32 @@ const Product = () => {
                 type="submit"
                 className="button_buy"
                 onClick={() => handleAddToCart(product)}
+                disabled={product.quantity <= 0 || qty >= product.quantity}
               >
                 Придбати
               </button>
+              {showSuccessAnimation && (
+                <div className="success-animation">
+                  <svg
+                    className="checkmark"
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 52 52"
+                  >
+                    <circle
+                      className="checkmark__circle"
+                      cx="26"
+                      cy="26"
+                      r="25"
+                      fill="none"
+                    />
+                    <path
+                      className="checkmark__check"
+                      fill="none"
+                      d="M14.1 27.2l7.1 7.2 16.7-16.8"
+                    />
+                  </svg>
+                </div>
+              )}
             </div>
           </div>
           <div className="product__share">
