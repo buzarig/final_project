@@ -2,13 +2,18 @@ import React, { useState } from "react";
 
 import { useForm } from "react-hook-form";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { Button } from "@mui/material";
 import ScrollOrder from "../scrollOrder/ScrollOrder";
 import OrderHeader from "../orderHeader/OrderHeader";
 import delivery from "../../assets/images/basket/delivery.png";
+import check from "../../assets/images/thanks/check.png";
+import { clear } from "../../redux/basket/actions";
 
 const Form = () => {
   const productsArray = useSelector((state) => state.basket.productsArray);
+  const dispatch = useDispatch();
   const promoData = [
     {
       id: 1,
@@ -112,6 +117,8 @@ const Form = () => {
       .then((dataFetch) => {
         console.log(dataFetch);
         setOrderNo(dataFetch.order.orderNo);
+
+        dispatch(clear());
       })
       .catch((error) => {
         console.error("Error:", error);
@@ -463,13 +470,6 @@ const Form = () => {
                 <p className="together_price"> {getTotalPrice()} грн</p>
               </>
             )}
-            {orderNo && (
-              <div className="popup">
-                <p style={{ color: "red" }}>
-                  Номер вашого замовлення: {orderNo}
-                </p>
-              </div>
-            )}
             <div className="together_img">
               <img className="img" alt="img" src={delivery} />
               <p>У вас є безкоштовна доставка!</p>
@@ -481,6 +481,37 @@ const Form = () => {
           </div>
         </div>
       </div>
+      {orderNo && (
+        <div className="blur">
+          <div className="wrapper_thanks">
+            <img src={check} alt="img" />
+            <div />
+            <p>Дякуємо за замовлення</p>
+            <div className="popup">
+              <p style={{ color: "red" }}>Номер Вашого замовлення: {orderNo}</p>
+              <p>Ми звяжемось з Вами найближчим часом</p>
+              <Link to="/">
+                <Button
+                  style={{
+                    background:
+                      "linear-gradient(92.18deg, #5E3928 20.13%, #E4A16F 92.93%)",
+                    width: "446",
+                    height: "50",
+                    color: "white",
+                    fontFamily: "'Montserrat'",
+                    marginTop: "40px",
+                    padding: "10px 40px"
+                  }}
+                  text="Головна"
+                >
+                  {" "}
+                  Головна
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </div>
+      )}
     </form>
   );
 };

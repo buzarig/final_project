@@ -6,9 +6,10 @@ import check from "../assets/images/thanks/check.png";
 const Thanks = () => (
   <div className="wrapper_thanks">
     <img src={check} alt="img" />
+    <div />
     <p>Дякуємо за замовлення</p>
     <p>Ми звяжемось з Вами найближчим часом</p>
-    <Link to="/final_project">
+    <Link to="/">
       <Button
         style={{
           background:
