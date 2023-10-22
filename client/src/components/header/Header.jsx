@@ -18,7 +18,7 @@ const Header = () => {
   const productsArray = useSelector((state) => state.basket.productsArray);
   const totalItemsInCart = productsArray.reduce(
     (total, product) => total + product.cartQuantity,
-    ""
+    0
   );
 
   const toggleMenu = () => {

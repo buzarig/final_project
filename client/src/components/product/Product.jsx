@@ -95,7 +95,7 @@ const Product = () => {
                 type="submit"
                 className="button_buy"
                 onClick={() => handleAddToCart(product)}
-                disabled={product.quantity <= 0 || qty >= product.quantity}
+                disabled={product.quantity <= 0}
               >
                 Придбати
               </button>
